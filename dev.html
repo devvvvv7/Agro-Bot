@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌱 Agrobot - Smart Crop Recommendation</title>
+    <meta name="description" content="AI-powered smart crop recommendation system using real-time sensor data" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --nature-green: hsl(122, 39%, 32%);
+            --forest-green: hsl(122, 55%, 25%);
+            --soft-green: hsl(122, 33%, 70%);
+            --light-green: hsl(122, 40%, 85%);
+            --earth-brown: hsl(20, 25%, 35%);
+            --sky-blue: hsl(206, 80%, 70%);
+            --accent-purple: hsl(291, 64%, 42%);
+            --accent-orange: hsl(35, 100%, 48%);
+            --text-dark: hsl(210, 11%, 15%);
+            --text-light: hsl(0, 0%, 98%);
+            --bg-light: hsl(104, 27%, 96%);
+            --card-bg: hsl(0, 0%, 100%);
+            
+            /* Beautiful gradients */
+            --gradient-primary: linear-gradient(135deg, hsl(122, 55%, 25%), hsl(122, 39%, 32%), hsl(122, 47%, 45%));
+            --gradient-secondary: linear-gradient(135deg, hsl(104, 27%, 96%), hsl(104, 30%, 94%), hsl(100, 20%, 92%));
+            --gradient-hero: linear-gradient(135deg, hsl(122, 70%, 20%), hsl(122, 55%, 25%), hsl(122, 47%, 35%), hsl(122, 39%, 45%));
+            --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%), hsl(210, 20%, 98%), hsl(206, 30%, 95%));
+            --gradient-accent: linear-gradient(45deg, hsl(291, 64%, 42%), hsl(294, 71%, 50%), hsl(340, 82%, 52%));
+            --gradient-nature: linear-gradient(180deg, hsl(122, 40%, 85%), hsl(122, 33%, 70%));
+            --gradient-sky: linear-gradient(135deg, hsl(206, 80%, 70%), hsl(206, 85%, 60%));
+            
+            /* Enhanced shadows with nature colors */
+            --shadow-soft: 0 8px 32px hsla(122, 39%, 32%, 0.12);
+            --shadow-hover: 0 16px 64px hsla(122, 39%, 32%, 0.18);
+            --shadow-elegant: 0 20px 80px hsla(122, 39%, 32%, 0.15);
+            --shadow-glow: 0 0 40px hsla(122, 47%, 45%, 0.4);
+            
+            /* Smooth transitions */
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gradient-secondary);
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background patterns */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, hsla(122, 39%, 32%, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, hsla(206, 80%, 70%, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, hsla(122, 33%, 70%, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+            animation: backgroundPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInFromTop {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInFromRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px hsla(122, 39%, 32%, 0.3); }
+            50% { box-shadow: var(--shadow-glow); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--gradient-hero);
+            color: var(--text-light);
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: slideInFromTop 0.8s ease-out;
+            box-shadow: var(--shadow-elegant);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 4s infinite;
+        }
+
+        .header-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .header-emoji {
+            display: inline-block;
+            font-size: 4rem;
+            animation: float 2s ease-in-out infinite;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            opacity: 0.95;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* Sensor Data Section */
+        .sensor-section {
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--gradient-card);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card:hover::after {
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card h2 {
+            color: var(--nature-green);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        /* Sensor Data Grid */
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sensor-data {
+            padding: 1.5rem;
+            background: var(--gradient-nature);
+            border-radius: 16px;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sensor-data::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sensor-data:hover::before {
+            left: 100%;
+        }
+
+        .sensor-data:hover {
+            transform: translateY(-5px) scale(1.05);
+            border-color: var(--nature-green);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .sensor-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .sensor-icon {
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .sensor-value {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--forest-green);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Prediction Button */
+        .predict-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        #predict-btn {
+            background: var(--gradient-hero);
+            color: var(--text-light);
+            border: none;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: var(--transition-bounce);
+            box-shadow: 0 8px 32px hsla(122, 39%, 32%, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            min-width: 280px;
+        }
+
+        #predict-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        #predict-btn:hover::before {
+            left: 100%;
+        }
+
+        #predict-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 16px 48px hsla(122, 39%, 32%, 0.6);
+            animation: glow 1.5s ease-in-out infinite;
+        }
+
+        #predict-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .result {
+            padding: 1.8rem;
+            background: linear-gradient(135deg, hsla(206, 80%, 70%, 0.1), hsla(122, 33%, 70%, 0.1));
+            border-radius: 16px;
+            border: 2px solid hsla(122, 39%, 32%, 0.2);
+            transition: var(--transition-smooth);
+            font-weight: 500;
+            font-size: 1.1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .result:hover::before {
+            transform: scaleX(1);
+        }
+
+        .result:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: linear-gradient(135deg, hsla(206, 80%, 70%, 0.15), hsla(122, 33%, 70%, 0.15));
+            border-color: var(--nature-green);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Chatbot Styles */
+        .chatbot-section {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 400px;
+            max-height: 600px;
+            z-index: 1000;
+            animation: slideInFromRight 0.8s ease-out;
+        }
+
+        .chat-toggle {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-hero);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-light);
+            box-shadow: var(--shadow-elegant);
+            transition: var(--transition-smooth);
+            z-index: 1001;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            animation: glow 1.5s ease-in-out infinite;
+        }
+
+        .chat-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 100%;
+            height: 500px;
+            background: var(--gradient-card);
+            border-radius: 20px;
+            box-shadow: var(--shadow-elegant);
+            border: 2px solid hsla(122, 33%, 70%, 0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .chat-container.active {
+            display: flex;
+            animation: slideInFromRight 0.3s ease-out;
+        }
+
+        .chat-header {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+        }
+
+        .chat-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+        }
+
+        #chat-box {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: linear-gradient(145deg, #fafafa, #ffffff);
+            scrollbar-width: thin;
+            scrollbar-color: var(--soft-green) transparent;
+        }
+
+        #chat-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #chat-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #chat-box::-webkit-scrollbar-thumb {
+            background: var(--soft-green);
+            border-radius: 3px;
+        }
+
+        .msg {
+            margin: 0.8rem 0;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            max-width: 85%;
+            animation: slideIn 0.3s ease-out;
+            word-wrap: break-word;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .user-msg {
+            background: var(--gradient-sky);
+            color: var(--text-light);
+            margin-left: auto;
+            text-align: right;
+            border-bottom-right-radius: 6px;
+        }
+
+        .bot-msg {
+            background: var(--gradient-nature);
+            text-align: left;
+            border-bottom-left-radius: 6px;
+            color: var(--text-dark);
+        }
+
+        #chat-input {
+            display: flex;
+            border-top: 2px solid hsla(122, 39%, 32%, 0.1);
+            background: white;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 1rem 1.2rem;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 1rem;
+            background: transparent;
+        }
+
+        #user-input::placeholder {
+            color: #999;
+            font-style: italic;
+        }
+
+        #send-btn {
+            background: var(--gradient-primary);
+            color: var(--text-light);
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+        }
+
+        #send-btn:hover {
+            background: var(--gradient-hero);
+            transform: scale(1.05);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid hsla(122, 39%, 32%, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--nature-green);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: hsla(122, 39%, 32%, 0.3);
+            border-radius: 50%;
+            animation: floatParticles 8s linear infinite;
+        }
+
+        @keyframes floatParticles {
+            from {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #4caf50;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            margin-left: 0.5rem;
+        }
+
+        /* Data update animation */
+        .data-updated {
+            animation: dataUpdate 0.6s ease-out;
+        }
+
+        @keyframes dataUpdate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); color: var(--nature-green); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            .header-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+                border-radius: 16px;
+            }
+            
+            .sensor-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chatbot-section {
+                width: calc(100vw - 2rem);
+                right: 1rem;
+                bottom: 1rem;
+            }
+            
+            .chat-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-section {
+                width: calc(100vw - 1rem);
+                right: 0.5rem;
+                bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-emoji">🌱</div>
+            <h1>AgroBot Buddy</h1>
+            <div class="subtitle">
+                AI-Powered Smart Agriculture Platform
+                <span class="status-indicator"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Sensor Data Section -->
+        <section class="sensor-section">
+            <div class="card">
+                <h2>📊 Real-Time Sensor Data</h2>
+                <div class="sensor-grid">
+                    <div class="sensor-data">
+                        <div class="sensor-label">
+                            <span class="sensor-icon">🌡️</span>
+                            <span>Temperature</span>
+                        </div>
+                        <div class="sensor-value" id="temperature">--</div>
+                    </div>
+                    <div class="sensor-data">
+                        <div class="sensor-label">
+                            <span class="sensor-icon">💧</span>
+                            <span>Humidity</span>
+                        </div>
+                        <div class="sensor-value" id="humidity">--</div>
+                    </div>
+                    <div class="sensor-data">
+                        <div class="sensor-label">
+                            <span class="sensor-icon">🌿</span>
+                            <span>Soil Moisture</span>
+                        </div>
+                        <div class="sensor-value" id="moisture">--</div>
+                    </div>
+                </div>
+
+                <div class="predict-container">
+                    <button id="predict-btn" onclick="predictCrop()">
+                        <span id="predict-text">🔮 Recommend Crop</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="card">
+                <h2>🌾 AI Recommendations</h2>
+                <div class="results-grid">
+                    <div class="result" id="crop">🌾 Best Crop: --</div>
+                    <div class="result" id="irrigation">💧 Irrigation Type: --</div>
+                    <div class="result" id="fertilizer">🌿 Fertilizer Used: --</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Chatbot Section -->
+    <div class="chatbot-section">
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <span>🤖</span>
+                <span>AgriBot Assistant</span>
+                <span class="status-indicator"></span>
+            </div>
+            <div id="chat-box"></div>
+            <div id="chat-input">
+                <input id="user-input" type="text" placeholder="Ask about farming, crops, weather..." 
+                       onkeypress="handleKeyPress(event)" />
+                <button id="send-btn" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+        <button class="chat-toggle" onclick="toggleChat()">
+            <span id="chat-toggle-icon">💬</span>
+        </button>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        /* ---------------- Particle System ---------------- */
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            setInterval(() => {
+                if (particlesContainer.children.length < 20) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.animationDelay = Math.random() * 8 + 's';
+                    particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                    particlesContainer.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 8000);
+                }
+            }, 1000);
+        }
+
+        /* ---------------- Chatbot Toggle ---------------- */
+        let chatOpen = false;
+
+        function toggleChat() {
+            const container = document.getElementById('chatContainer');
+            const icon = document.getElementById('chat-toggle-icon');
+            
+            chatOpen = !chatOpen;
+            
+            if (chatOpen) {
+                container.classList.add('active');
+                icon.textContent = '✖️';
+            } else {
+                container.classList.remove('active');
+                icon.textContent = '💬';
+            }
+        }
+
+        /* ---------------- Firebase Configuration ---------------- */
+        const firebaseConfig = {
+            apiKey: "AIzaSyBFDcw1HNyZp6rRLMIEKX7c6-SdR7t7NCg",
+            authDomain: "esp32-agri-3c9a0.firebaseapp.com",
+            databaseURL: "https://esp32-agri-3c9a0-default-rtdb.firebaseio.com",
+            projectId: "esp32-agri-3c9a0",
+            storageBucket: "esp32-agri-3c9a0.firebasestorage.app",
+            messagingSenderId: "687937182162",
+            appId: "1:687937182162:web:24e8514ce770c7117cd00b",
+            measurementId: "G-H6JX4ERQYW"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let latestSensor = { temp: 0, hum: 0, moist: 0 };
+
+        /* ---------------- Firebase Real-time Listener ---------------- */
+        db.ref("sensorData").on("value", (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                latestSensor = {
+                    temp: data.temperature || 0,
+                    hum: data.humidity || 0,
+                    moist: data.moisture || 0
+                };
+
+                const tempEl = document.getElementById("temperature");
+                const humEl = document.getElementById("humidity");
+                const moistEl = document.getElementById("moisture");
+
+                // Add animation class for data update
+                [tempEl, humEl, moistEl].forEach(el => {
+                    el.classList.add('data-updated');
+                    setTimeout(() => el.classList.remove('data-updated'), 600);
+                });
+
+                tempEl.innerText = latestSensor.temp.toFixed(1) + " °C";
+                humEl.innerText = latestSensor.hum.toFixed(1) + " %";
+                moistEl.innerText = latestSensor.moist.toFixed(1) + " %";
+            }
+        });
+
+        /* ---------------- Crop Prediction with Gemini AI ---------------- */
+        async function predictCrop() {
+            const btn = document.getElementById('predict-btn');
+            const text = document.getElementById('predict-text');
+            
+            // Show loading state
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'not-allowed';
+            text.innerHTML = '<span class="loading"></span> Analyzing Data...';
+            
+            const prompt = `Given these agricultural conditions:
+            - Temperature: ${latestSensor.temp}°C
+            - Humidity: ${latestSensor.hum}%
+            - Soil Moisture: ${latestSensor.moist}%
+            
+            Recommend the most suitable crop, optimal irrigation method, and appropriate fertilizer.
+            Format your response as:
+            Crop: [crop name]
+            Irrigation: [irrigation method]
+            Fertilizer: [fertilizer type]`;
+
+            try {
+                const reply = await askGemini(prompt);
+
+                // Parse and display results with staggered animations
+                const cropEl = document.getElementById("crop");
+                const irrigationEl = document.getElementById("irrigation");
+                const fertilizerEl = document.getElementById("fertilizer");
+
+                setTimeout(() => {
+                    cropEl.textContent = reply.match(/Crop:(.*)/i)?.[0] || "🌾 Best Crop: --";
+                    cropEl.style.animation = 'slideIn 0.5s ease-out';
+                }, 200);
+
+                setTimeout(() => {
+                    irrigationEl.textContent = reply.match(/Irrigation:(.*)/i)?.[0] || "💧 Irrigation Type: --";
+                    irrigationEl.style.animation = 'slideIn 0.5s ease-out';
+                }, 400);
+
+                setTimeout(() => {
+                    fertilizerEl.textContent = reply.match(/Fertilizer:(.*)/i)?.[0] || "🌿 Fertilizer Used: --";
+                    fertilizerEl.style.animation = 'slideIn 0.5s ease-out';
+                }, 600);
+
+            } catch (error) {
+                console.error('Prediction error:', error);
+                addMessage("Sorry, I couldn't process the prediction right now. Please try again.", "bot");
+            } finally {
+                // Reset button state
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+                text.innerHTML = '🔮 Recommend Crop';
+            }
+        }
+
+        /* ---------------- Chatbot Functions ---------------- */
+        function addMessage(text, sender) {
+            const chatBox = document.getElementById("chat-box");
+            const msgDiv = document.createElement("div");
+            msgDiv.classList.add("msg", sender === "user" ? "user-msg" : "bot-msg");
+            msgDiv.textContent = text;
+            chatBox.appendChild(msgDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addMessage(text, "user");
+            input.value = "";
+            
+            // Show typing indicator
+            const typingDiv = document.createElement("div");
+            typingDiv.classList.add("msg", "bot-msg");
+            typingDiv.innerHTML = '<span class="loading"></span> AgriBot is thinking...';
+            typingDiv.id = 'typing-indicator';
+            document.getElementById("chat-box").appendChild(typingDiv);
+            document.getElementById("chat-box").scrollTop = document.getElementById("chat-box").scrollHeight;
+
+            try {
+                const reply = await askGemini(text);
+                
+                // Remove typing indicator
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) typingIndicator.remove();
+                
+                addMessage(reply, "bot");
+            } catch (error) {
+                // Remove typing indicator
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) typingIndicator.remove();
+                
+                addMessage("Sorry, I'm having trouble connecting. Please try again later.", "bot");
+            }
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === "Enter") sendMessage();
+        }
+
+        /* ---------------- Gemini AI Integration ---------------- */
+        async function askGemini(prompt) {
+            const apiKey = "AIzaSyDhbyQzSm_0xensbNczdFX6WsjzhlWkMHY"; // Replace with your API key
+            const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }]
+                })
+            });
+
+            const data = await response.json();
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "🤔 I couldn't generate a response right now.";
+        }
+
+        /* ---------------- Initialize Application ---------------- */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start particle system
+            createParticles();
+            
+            // Add welcome message to chat after a delay
+            setTimeout(() => {
+                addMessage("🌱 Welcome to AgroSense Buddy! I'm your AI agriculture assistant. Ask me about crops, soil conditions, weather patterns, or any farming questions you have!", "bot");
+            }, 1500);
+            
+            // Add subtle animations to cards
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = 'fadeIn 0.6s ease-out';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+
+</html>
